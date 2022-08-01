@@ -6,36 +6,63 @@ const JUMP_POWER: f32 = 7f32;
 const GRAVITY: f32 = 0.25f32;
 const OBSTACLE_VELOCITY: f32 = 5f32;
 
+pub enum GameState {
+    Startscreen,
+    Play,
+    Gameover,
+}
+
 #[macroquad::main("Input_keys")]
 async fn main() {
-
     let mut player = Player::new();
     let mut obstacle = Obstacle::new();
 
+    let mut game_state = GameState::Startscreen;
     loop {
-        clear_background(BEIGE);
+        match game_state {
+            GameState::Startscreen => {
+                screen_printer("Deeteouh", "hoeuhtaeo");
+                if is_key_down(KeyCode::Space) {
+                    game_state = GameState::Play;
+                }
+            }
+            GameState::Play => {
+                clear_background(BEIGE);
 
-        //Floor
-        draw_line(
-            0.0,
-            screen_height() * 0.75,
-            screen_width(),
-            screen_height() * 0.75,
-            5.0,
-            BLACK,
-        );
+                //Floor
+                draw_line(
+                    0.0,
+                    screen_height() * 0.75,
+                    screen_width(),
+                    screen_height() * 0.75,
+                    5.0,
+                    BLACK,
+                );
 
-        // Player
-        player.draw();
-        player.update(get_frame_time());
+                // Player
+                player.draw();
+                player.update(get_frame_time());
 
-        // Obstacle
-        obstacle.draw();
-        obstacle.update(get_frame_time());
+                // Obstacle
+                obstacle.draw();
+                obstacle.update(get_frame_time());
 
+                //Collision Detector
+                if collision_detector(player.rect, obstacle.rect) {
+                    game_state = GameState::Gameover;
+                }
 
-        draw_text("by shuwais", 20.0, 20.0, 20.0, RED);
-        next_frame().await
+                draw_text("by shuwais", 20.0, 20.0, 20.0, RED);
+            }
+
+            GameState::Gameover => {
+                screen_printer("Deeteouh", "hoeuhtaeo");
+                if is_key_down(KeyCode::Space) {
+                    game_state = GameState::Play;
+                }
+            }
+        }
+        next_frame().await;
     }
 }
 
@@ -106,4 +133,27 @@ impl Obstacle {
             self.rect.x = screen_width();
         }
     }
+}
+
+// Collision Detector
+fn collision_detector(p: Rect, o: Rect) -> bool {
+    o.x <= p.x + p.w && o.x >= p.x && o.y <= p.y + p.h
+}
+
+// For Displaying Startscreen and Gameover screen
+fn screen_printer(heading: &str, sub: &str) {
+    draw_text(
+        heading,
+        screen_width() / 2f32,
+        screen_height() / 2f32,
+        50f32,
+        RED,
+    );
+    draw_text(
+        sub,
+        screen_width() / 2f32 + 30f32,
+        screen_height() / 2f32 + 30f32,
+        10f32,
+        RED,
+    );
 }
