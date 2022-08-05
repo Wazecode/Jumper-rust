@@ -21,7 +21,7 @@ async fn main() {
     loop {
         match game_state {
             GameState::Startscreen => {
-                screen_printer("Deeteouh", "hoeuhtaeo");
+                screen_printer("Start", "Press Space to start");
                 if is_key_down(KeyCode::Space) {
                     game_state = GameState::Play;
                 }
@@ -56,8 +56,11 @@ async fn main() {
             }
 
             GameState::Gameover => {
-                screen_printer("Deeteouh", "hoeuhtaeo");
+                screen_printer("Game Over", "Press Space to restart");
                 if is_key_down(KeyCode::Space) {
+                    // reset Game
+                    player = Player::new();
+                    obstacle = Obstacle::new();
                     game_state = GameState::Play;
                 }
             }
