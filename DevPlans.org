@@ -1,0 +1,9 @@
+#+title: Dev Plans
+
+* DONE Basic Game Prototype
+* TODO Add Score System
+- Calculate Score for each game
+- Save HighScore
+* TODO Difficulty and Randomness
+- Randomness in obstacles spawn and speed
+- Speed increases as the score increases
