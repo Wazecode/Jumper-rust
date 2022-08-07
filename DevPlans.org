@@ -1,9 +1,12 @@
 #+title: Dev Plans
 
 * DONE Basic Game Prototype
-* TODO Add Score System
-- Calculate Score for each game
-- Save HighScore
-* TODO Difficulty and Randomness
+* DONE Add Score System
+- Calculate Score for each game (Completed)
+- Save HighScore (Dont Know how to implement)Task shifted to file management
+* DONE Difficulty and Randomness
 - Randomness in obstacles spawn and speed
 - Speed increases as the score increases
+* Add Sprites and animation
+* Add sound
+* UI
