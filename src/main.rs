@@ -16,6 +16,7 @@ pub enum GameState {
 async fn main() {
     let mut player = Player::new();
     let mut obstacle = Obstacle::new();
+    let mut score: u32 = 0;
 
     let mut game_state = GameState::Startscreen;
     loop {
@@ -45,14 +46,14 @@ async fn main() {
 
                 // Obstacle
                 obstacle.draw();
-                obstacle.update(get_frame_time());
+                obstacle.update(get_frame_time(), &mut score);
 
                 //Collision Detector
                 if collision_detector(player.rect, obstacle.rect) {
                     game_state = GameState::Gameover;
                 }
 
-                draw_text("by shuwais", 20.0, 20.0, 20.0, RED);
+                draw_text(&score.to_string(), 20.0, 20.0, 20.0, RED);
             }
 
             GameState::Gameover => {
@@ -61,6 +62,7 @@ async fn main() {
                     // reset Game
                     player = Player::new();
                     obstacle = Obstacle::new();
+                    score = 0;
                     game_state = GameState::Play;
                 }
             }
@@ -129,11 +131,12 @@ impl Obstacle {
         draw_rectangle(self.rect.x, self.rect.y, self.rect.w, self.rect.h, RED);
     }
 
-    pub fn update(&mut self, dt: f32) {
+    pub fn update(&mut self, dt: f32, score: &mut u32) {
         self.rect.x -= self.vel * dt * 60f32;
 
         if self.rect.x + self.rect.w < 0f32 {
             self.rect.x = screen_width();
+            *score += 1;
         }
     }
 }
@@ -160,3 +163,4 @@ fn screen_printer(heading: &str, sub: &str) {
         RED,
     );
 }
+
