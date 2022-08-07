@@ -112,6 +112,7 @@ impl Player {
 struct Obstacle {
     rect: Rect,
     vel: f32,
+    rand: f32
 }
 
 impl Obstacle {
@@ -124,6 +125,7 @@ impl Obstacle {
                 OBSTACLE_SIZE.y,
             ),
             vel: OBSTACLE_VELOCITY,
+            rand: 1f32
         }
     }
 
@@ -132,11 +134,13 @@ impl Obstacle {
     }
 
     pub fn update(&mut self, dt: f32, score: &mut u32) {
-        self.rect.x -= self.vel * dt * 60f32;
+        self.rect.x -= self.vel * dt * 60f32 * self.rand;
 
         if self.rect.x + self.rect.w < 0f32 {
-            self.rect.x = screen_width();
+            self.rect.x = screen_width() + rand::gen_range(50f32, 400f32);
+            self.rand = rand::gen_range(1f32, 3f32);
             *score += 1;
+            self.vel += 0.1f32;
         }
     }
 }
