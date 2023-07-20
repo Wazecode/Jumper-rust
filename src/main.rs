@@ -1,7 +1,7 @@
 use macroquad::prelude::*;
 
-const PLAYER_SIZE: Vec2 = const_vec2!([50f32, 100f32]);
-const OBSTACLE_SIZE: Vec2 = const_vec2!([50f32, 50f32]);
+const PLAYER_SIZE: Vec2 = Vec2::from_array([50f32, 100f32]);
+const OBSTACLE_SIZE: Vec2 = Vec2::from_array([50f32, 50f32]);
 const JUMP_POWER: f32 = 7f32;
 const GRAVITY: f32 = 0.25f32;
 const OBSTACLE_VELOCITY: f32 = 5f32;
